@@ -91,10 +91,15 @@
 
             <br>
 
+            
+
+
             <div class="form-field">
-                <label for="password"><b>Password:</b></label>
-                <input type="password" name="password" id="password" autocomplete="off">
-                <small></small>
+              <label for="password"><b>Password:</b></label>
+            <input type="password" id="password" onkeyup="CheckPasswordStrength(this.value)" autocomplete="off"/>
+            <span id="password_strength"></span>
+            <small></small>
+            <p style="color: coral;">Password must has at least 8 characters that include at least 1 lowercase character, <br> 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)'</p>
             </div>
 
             <br>

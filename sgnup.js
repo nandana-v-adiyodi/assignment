@@ -3,6 +3,7 @@ const emailEl = document.querySelector('#email');
 const passwordEl = document.querySelector('#password');
 const confirmPasswordEl = document.querySelector('#confirm-password');
 const phone = document.querySelector('#phoneno');
+var password_strength = document.getElementById("password_strength");
 
 const form = document.querySelector('#signup');
 
@@ -70,15 +71,75 @@ const checkPassword = () => {
 
     if (!isRequired(password)) {
         showError(passwordEl, 'Password cannot be blank.');
-    } else if (!isPasswordSecure(password)) {
-        showError(passwordEl, 'Password must has at least 8 characters that include at least 1 lowercase character, 1 uppercase characters, 1 number, and 1 special character in (!@#$%^&*)');
-    } else {
-        showSuccess(passwordEl);
-        valid = true;
-    }
+        } else {
+            showSuccess(passwordEl);
+            valid = true;
+        }
+   
+        return valid;
+   
+        
+   };
 
-    return valid;
-};
+            function CheckPasswordStrength(password) {
+                var password_strength = document.getElementById("password_strength");
+         
+                //TextBox left blank.
+                if (password.length == 0) {
+                    password_strength.innerHTML = "";
+                    return;
+                }
+         
+                //Regular Expressions.
+                var regex = new Array("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+                regex.push("[A-Z]"); //Uppercase Alphabet.
+                regex.push("[a-z]"); //Lowercase Alphabet.
+                regex.push("[0-9]"); //Digit.
+                regex.push("[$@$!%*#?&]"); //Special Character.
+         
+                var passed = 0;
+         
+                //Validate for each Regular Expression.
+                for (var i = 0; i < regex.length; i++) {
+                    if (new RegExp(regex[i]).test(password)) {
+                        passed++;
+                    }
+                }
+         
+                //Validate for length of Password.
+                if (passed > 2 && password.length > 8) {
+                    passed++;
+                }
+         
+                //Display status.
+                var color = "";
+                var strength = "";
+                switch (passed) {
+                    case 0:
+                    case 1:
+                        strength = "Weak";
+                        color = "red";
+                        break;
+                    case 2:
+                        strength = "Good";
+                        color = "darkorange";
+                        break;
+                    case 3:
+                    case 4:
+                        strength = "Strong";
+                        color = "green";
+                        break;
+                    case 5:
+                        strength = "Very Strong";
+                        color = "darkgreen";
+                        break;
+                }
+                password_strength.innerHTML = strength;
+                password_strength.style.color = color;
+            }
+        
+        
+
 
 const checkConfirmPassword = () => {
     let valid = false;
